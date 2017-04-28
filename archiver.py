@@ -135,8 +135,6 @@ def archive_submissions(subreddit, submissionDir):
             "num_reports": submission.num_reports,
             "over_18": submission.over_18,
             "permalink": submission.permalink,
-            "post_hint": submission.post_hint,
-            "preview": submission.preview,
             "quarantine": submission.quarantine,
             "removal_reason": submission.removal_reason,
             "score": submission.score,
@@ -147,7 +145,7 @@ def archive_submissions(subreddit, submissionDir):
             "spoiler": submission.spoiler,
             "stickied": submission.stickied,
             "subreddit": {
-                "name": submission.subreddit,
+                # "name": submission.subreddit,
                 "name_prefixed": submission.subreddit_name_prefixed,
                 "type": submission.subreddit_type,
                 "id": submission.subreddit_id,
@@ -158,6 +156,10 @@ def archive_submissions(subreddit, submissionDir):
             "upvote_ratio": submission.upvote_ratio,
             "url": submission.url
         }
+        if hasattr(submission, 'post_hint'):
+            submissionObj["post_hint"] = submission.post_hint
+        if hasattr(submission, 'preview'):
+            submissionObj["preview"] = submission.preview
         with open(os.path.join(submissionDir, '.'.join([submission.id, "json"])), "w") as submissionFileHandler:
             submissionFileHandler.write(json.dumps(submissionObj))
     logging.info("Finished processing {0} submissions".format(count))
